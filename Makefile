@@ -35,15 +35,15 @@ destroy:
 
 ## shell:		Interactive shell inside docker
 shell:
-	@docker-compose exec php_container sh
+	@docker-compose exec book_catalog_php_container sh
 
 ## install:	Install packages
 composer-install:
-	docker-compose exec php_container composer install
+	docker-compose exec book_catalog_php_container composer install
 
 ## test:		Run all tests inside docker
 test:
-	@docker-compose exec php_container make run-tests
+	@docker-compose exec book_catalog_php_container make run-tests
 
 ## run-tests:	Run all tests
 run-tests:

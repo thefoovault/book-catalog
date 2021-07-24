@@ -1,2 +1,2 @@
 #!/bin/bash -e
-docker-compose exec -T php_container docs/git/hooks/pre-commit
+docker-compose exec -T book_catalog_php_container docs/git/hooks/pre-commit

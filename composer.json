@@ -3,7 +3,8 @@
   "autoload": {
     "psr-4": {
       "Shared\\": "src/Shared",
-      "SymfonyClient\\": "apps/SymfonyClient/src"
+      "BookCatalog\\": "src/BookCatalog",
+      "BookCatalogAPI\\": "apps/BookCatalogAPI/src"
     }
   },
   "autoload-dev": {
@@ -12,11 +13,11 @@
     }
   },
   "extra": {
-    "bin-dir": "apps/SymfonyClient/bin",
-    "config-dir": "apps/SymfonyClient/config",
-    "src-dir": "apps/SymfonyClient/src",
-    "var-dir": "apps/SymfonyClient/var",
-    "public-dir": "apps/SymfonyClient/public"
+    "bin-dir": "apps/BookCatalogAPI/bin",
+    "config-dir": "apps/BookCatalogAPI/config",
+    "src-dir": "apps/BookCatalogAPI/src",
+    "var-dir": "apps/BookCatalogAPI/var",
+    "public-dir": "apps/BookCatalogAPI/public"
   },
   "require": {
     "symfony/flex": "^1.13",

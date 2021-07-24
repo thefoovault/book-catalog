@@ -2,24 +2,24 @@
 version: '3.8'
 
 services:
-  php_container:
+  book_catalog_php_container:
     build:
       context: etc/infrastructure/php
       dockerfile: Dockerfile
-    container_name: php_container
+    container_name: book_catalog_php_container
     volumes:
       - ./:/app
     working_dir: /app
     ports:
-      - 9001:9000
+      - 9001:9003
 
-  nginx_container:
+  book_catalog_nginx_container:
     image: nginx:latest
-    container_name: nginx_container
+    container_name: book_catalog_nginx_container
     ports:
       - 8000:80
     volumes:
       - ./etc/infrastructure/nginx/conf.d:/etc/nginx/conf.d
-      - ./apps/SymfonyClient/public/:/app/apps/SymfonyClient/public
+      - ./apps/BookCatalogAPI/public/:/app/apps/BookCatalogAPI/public
     depends_on:
-      - php_container
+      - book_catalog_php_container

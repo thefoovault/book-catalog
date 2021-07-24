@@ -1,6 +1,6 @@
 <?php
 
-namespace SymfonyClient;
+namespace BookCatalogAPI;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;

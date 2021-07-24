@@ -5,9 +5,9 @@
 /.env.local
 /.env.local.php
 /.env.*.local
-/apps/SymfonyClient/config/secrets/prod/prod.decrypt.private.php
-/apps/SymfonyClient/public/bundles/
-/apps/SymfonyClient/var/
+/apps/BookCatalogAPI/config/secrets/prod/prod.decrypt.private.php
+/apps/BookCatalogAPI/public/bundles/
+/apps/BookCatalogAPI/var/
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###
