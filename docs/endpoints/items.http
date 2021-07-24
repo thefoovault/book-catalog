@@ -1,0 +1,9 @@
+# Create an item
+POST http://localhost:8000/api/v1/items
+
+{
+  "image": "https://m.media-amazon.com/images/I/51ZswyEUu2L._SY346_.jpg",
+  "title": "Dragons of Autumn Twilight",
+  "author": "Margaret Weis and Tracy Hickman",
+  "price": 12.99
+}
