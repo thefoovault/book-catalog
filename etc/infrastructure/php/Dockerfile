@@ -19,7 +19,8 @@ RUN pecl install xdebug
 
 RUN docker-php-ext-enable \
         opcache \
-        xdebug
+        xdebug \
+        pdo_mysql
 
 ENV PHP_IDE_CONFIG 'serverName=DockerApp'
 

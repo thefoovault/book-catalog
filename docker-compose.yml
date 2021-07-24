@@ -12,6 +12,8 @@ services:
     working_dir: /app
     ports:
       - 9001:9003
+    depends_on:
+      - book_catalog_mysql_container
 
   book_catalog_nginx_container:
     image: nginx:latest
@@ -23,3 +25,19 @@ services:
       - ./apps/BookCatalogAPI/public/:/app/apps/BookCatalogAPI/public
     depends_on:
       - book_catalog_php_container
+
+  book_catalog_mysql_container:
+    image: mysql:8.0
+    container_name: book_catalog_mysql_container
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${DATABASE_NAME}
+      MYSQL_USER: ${DATABASE_USER}
+      MYSQL_PASSWORD: ${DATABASE_PASSWD}
+      MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWD}
+    ports:
+      - 3306:${DATABASE_PORT}
+    expose:
+      - ${DATABASE_PORT}
+    volumes:
+      - ./var/MySQL:/var/lib/mysql
