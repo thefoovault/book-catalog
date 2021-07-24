@@ -1,0 +1,6 @@
+createBook:
+    path: /api/{version}/items
+    controller: BookCatalogAPI\Controller\Items\CreateItemController
+    methods: [POST]
+    requirements:
+        version: '%api_versions%'

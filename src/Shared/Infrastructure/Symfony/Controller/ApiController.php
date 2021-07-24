@@ -6,6 +6,7 @@ namespace Shared\Infrastructure\Symfony\Controller;
 
 use Shared\Domain\Bus\Command\CommandBus;
 use Shared\Domain\Bus\Query\QueryBus;
+use Symfony\Component\HttpFoundation\Response;
 use function Lambdish\Phunctional\each;
 
 abstract class ApiController extends Controller
@@ -19,6 +20,17 @@ abstract class ApiController extends Controller
         each(
             fn(int $httpCode, string $exceptionClass) => $exceptionHandler->register($exceptionClass, $httpCode),
             $this->exceptions()
+        );
+    }
+
+    protected function createApiResponse(mixed $data, int $status_code = Response::HTTP_OK): Response
+    {
+        return new Response(
+            json_encode($data),
+            $status_code,
+            [
+                'Content-Type' => 'application/json',
+            ]
         );
     }
 
