@@ -11,7 +11,7 @@ use BookCatalog\Domain\Book\BookRepository;
 use PHPUnit\Framework\TestCase;
 use Test\BookCatalog\Domain\Book\BookMother;
 
-class CreateItemCommandHandlerTest extends TestCase
+final class CreateItemCommandHandlerTest extends TestCase
 {
     private CreateItemCommandHandler $createItemCommandHandler;
     private CreateItem $createItem;
@@ -34,7 +34,7 @@ class CreateItemCommandHandlerTest extends TestCase
     }
 
     /** @test */
-    public function itShouldCreateABook(): void
+    public function shouldCreateABook(): void
     {
         $book = BookMother::random();
 

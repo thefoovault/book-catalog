@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Shared\Domain\ValueObject;
 
 use Ramsey\Uuid\Uuid as RamseyUuid;
+use Shared\Domain\Exception\InvalidUuid;
 
 class Uuid extends StringValueObject
 {
@@ -21,6 +22,8 @@ class Uuid extends StringValueObject
 
     private function assertIsValidUuid(string $value): void
     {
-        RamseyUuid::isValid($value);
+        if(!RamseyUuid::isValid($value)) {
+            throw new InvalidUUid($value);
+        }
     }
 }
