@@ -11,3 +11,10 @@ GetBook:
     methods: [GET]
     requirements:
         version: '%api_versions%'
+
+GetBooks:
+    path: /api/{version}/items
+    controller: BookCatalogAPI\Controller\Items\GetItemsController
+    methods: [GET]
+    requirements:
+        version: '%api_versions%'
