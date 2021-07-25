@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace BookCatalog\Domain\Book;
 
-final class Book
+use BookCatalog\Domain\Author\AuthorId;
+use Shared\Domain\Aggregate\AggregateRoot;
+
+final class Book extends AggregateRoot
 {
     public function __construct(
         private BookId $bookId,
         private BookImage $bookImage,
         private BookTitle $bookTitle,
-        private BookAuthor $bookAuthor,
+        private AuthorId $bookAuthor,
         private BookPrice $bookPrice
     ){}
 
@@ -29,7 +32,7 @@ final class Book
         return $this->bookTitle;
     }
 
-    public function bookAuthor(): BookAuthor
+    public function bookAuthor(): AuthorId
     {
         return $this->bookAuthor;
     }
