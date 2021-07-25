@@ -7,3 +7,7 @@ POST http://localhost:8000/api/v1/items
   "author": "c22da066-fced-4c53-9fe2-44685daf28a9",
   "price": 12.99
 }
+
+###
+# Get an item
+GET http://localhost:8000/api/v1/items/0e644e46-cbdb-4fcb-b147-6068259191eb

@@ -6,7 +6,7 @@ namespace BookCatalog\Application\CreateItem;
 
 use Shared\Domain\Bus\Command\Command;
 
-class CreateItemCommand implements Command
+final class CreateItemCommand implements Command
 {
     public function __construct(
         private string $id,

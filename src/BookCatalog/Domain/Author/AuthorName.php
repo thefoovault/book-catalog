@@ -6,4 +6,4 @@ namespace BookCatalog\Domain\Author;
 
 use Shared\Domain\ValueObject\StringValueObject;
 
-class AuthorName extends StringValueObject {}
+final class AuthorName extends StringValueObject {}
