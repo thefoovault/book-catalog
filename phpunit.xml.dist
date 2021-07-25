@@ -17,6 +17,7 @@
          stopOnRisky="false"
          verbose="false"
          bootstrap="tests/bootstrap.php"
+         beStrictAboutTestsThatDoNotTestAnything="false"
 >
     <php>
         <ini name="error_reporting" value="-1" />
