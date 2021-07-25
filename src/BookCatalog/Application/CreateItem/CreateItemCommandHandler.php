@@ -12,7 +12,7 @@ use BookCatalog\Domain\Book\BookPrice;
 use BookCatalog\Domain\Book\BookTitle;
 use Shared\Domain\Bus\Command\CommandHandler;
 
-class CreateItemCommandHandler implements CommandHandler
+final class CreateItemCommandHandler implements CommandHandler
 {
     public function __construct(
         private CreateItem $createItem

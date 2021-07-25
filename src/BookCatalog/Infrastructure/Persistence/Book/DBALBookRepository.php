@@ -8,7 +8,7 @@ use BookCatalog\Domain\Book\Book;
 use BookCatalog\Domain\Book\BookRepository;
 use Doctrine\DBAL\Driver\Connection;
 
-class DBALBookRepository implements BookRepository
+final class DBALBookRepository implements BookRepository
 {
     public function __construct(
         private Connection $connection

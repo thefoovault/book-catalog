@@ -7,7 +7,7 @@ namespace BookCatalog\Application\CreateItem;
 use BookCatalog\Domain\Book\Book;
 use BookCatalog\Domain\Book\BookRepository;
 
-class CreateItem
+final class CreateItem
 {
     public function __construct(
         private BookRepository $bookRepository
