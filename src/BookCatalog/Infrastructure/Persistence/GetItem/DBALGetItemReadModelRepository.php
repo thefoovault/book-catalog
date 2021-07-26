@@ -30,7 +30,7 @@ SQL;
 
         $data = $stmt->fetchAllAssociative();
 
-        if (empty($data) || false === $data) {
+        if (!$data) {
             return null;
         }
 
