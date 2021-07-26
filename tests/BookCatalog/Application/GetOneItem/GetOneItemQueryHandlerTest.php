@@ -31,15 +31,7 @@ final class GetOneItemQueryHandlerTest extends TestCase
     /** @test */
     public function shouldReturnAValidBook(): void
     {
-        $sampleAuthor = AuthorMother::random();
-        $sampleBook = BookMother::withAuthor($sampleAuthor->authorId()->value());
-        $expectedResponse = new ItemResponse(
-            $sampleBook->bookId()->value(),
-            $sampleBook->bookImage()->value(),
-            $sampleBook->bookTitle()->value(),
-            $sampleAuthor->authorName()->value(),
-            $sampleBook->bookPrice()->value()
-        );
+        list($sampleBook, $expectedResponse) = $this->createItems();
 
         $this->getItemReadModelRepository
             ->expects(self::once())
@@ -75,5 +67,19 @@ final class GetOneItemQueryHandlerTest extends TestCase
         $this->getItemQueryHandler->__invoke(
             new GetOneItemQuery($bookId->value())
         );
+    }
+
+    private function createItems(): array
+    {
+        $sampleAuthor = AuthorMother::random();
+        $sampleBook = BookMother::withAuthor($sampleAuthor->authorId()->value());
+        $expectedResponse = new ItemResponse(
+            $sampleBook->bookId()->value(),
+            $sampleBook->bookImage()->value(),
+            $sampleBook->bookTitle()->value(),
+            $sampleAuthor->authorName()->value(),
+            $sampleBook->bookPrice()->value()
+        );
+        return array($sampleBook, $expectedResponse);
     }
 }
