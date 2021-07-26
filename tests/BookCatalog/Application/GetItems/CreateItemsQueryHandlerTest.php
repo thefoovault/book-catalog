@@ -16,6 +16,7 @@ use Test\BookCatalog\Domain\Book\BookMother;
 
 class CreateItemsQueryHandlerTest extends TestCase
 {
+    private const EXPECTED_ITEMS = 3;
     private BookRepository $bookRepository;
     private GetItemsQueryHandler $getItemsQueryHandler;
 
@@ -33,7 +34,7 @@ class CreateItemsQueryHandlerTest extends TestCase
         $expectedItems = [];
         $sampleBooks = [];
 
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < self::EXPECTED_ITEMS; $i++) {
             $sampleAuthor = AuthorMother::random();
             $sampleBook = BookMother::withAuthor($sampleAuthor->authorId()->value());
             $expectedItems[] = new ItemResponse(
@@ -57,5 +58,7 @@ class CreateItemsQueryHandlerTest extends TestCase
 
         $this->assertInstanceOf(ListItemResponse::class, $listItems);
         $this->assertEquals($expectedListItems, $listItems);
+        $this->assertContainsOnlyInstancesOf(ItemResponse::class, $listItems->getIterator());
+        $this->assertCount(self::EXPECTED_ITEMS, $listItems->getIterator());
     }
 }

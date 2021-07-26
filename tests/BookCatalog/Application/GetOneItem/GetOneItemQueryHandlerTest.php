@@ -53,6 +53,11 @@ final class GetOneItemQueryHandlerTest extends TestCase
 
         $this->assertInstanceOf(ItemResponse::class, $itemResponse);
         $this->assertEquals($expectedResponse, $itemResponse);
+        $this->assertEquals($expectedResponse->id(), $itemResponse->id());
+        $this->assertEquals($expectedResponse->image(), $itemResponse->image());
+        $this->assertEquals($expectedResponse->title(), $itemResponse->title());
+        $this->assertEquals($expectedResponse->author(), $itemResponse->author());
+        $this->assertEquals($expectedResponse->price(), $itemResponse->price());
     }
 
     /** @test */
