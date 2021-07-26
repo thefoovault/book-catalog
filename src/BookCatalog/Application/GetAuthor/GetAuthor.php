@@ -9,7 +9,7 @@ use BookCatalog\Domain\Author\AuthorId;
 use BookCatalog\Domain\Author\AuthorRepository;
 use BookCatalog\Domain\Author\Exception\AuthorNotFound;
 
-class GetAuthor
+final class GetAuthor
 {
     public function __construct(
         private AuthorRepository $authorRepository

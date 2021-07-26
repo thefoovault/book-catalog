@@ -7,7 +7,7 @@ namespace BookCatalog\Domain\Author\Exception;
 use BookCatalog\Domain\Author\AuthorId;
 use Shared\Domain\Exception\DomainError;
 
-class AuthorNotFound extends DomainError
+final class AuthorNotFound extends DomainError
 {
     private AuthorId $authorId;
 

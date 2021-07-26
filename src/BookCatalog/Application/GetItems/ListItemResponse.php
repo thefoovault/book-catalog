@@ -10,7 +10,7 @@ use JsonSerializable;
 use Shared\Domain\Aggregate\Collection;
 use Shared\Domain\Bus\Query\QueryResponse;
 
-class ListItemResponse extends Collection implements QueryResponse, JsonSerializable
+final class ListItemResponse extends Collection implements QueryResponse, JsonSerializable
 {
     protected function type(): string
     {

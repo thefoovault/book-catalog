@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace BookCatalog\Application\Criteria;
 
-class Criteria
+final class Criteria
 {
     private const DEFAULT_OFFSET = 0;
     private const DEFAULT_LIMIT = 10;

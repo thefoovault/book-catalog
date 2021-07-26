@@ -6,7 +6,7 @@ namespace BookCatalog\Domain\Book;
 
 use Shared\Domain\Aggregate\Collection;
 
-class BookCollection extends Collection
+final class BookCollection extends Collection
 {
     protected function type(): string
     {
