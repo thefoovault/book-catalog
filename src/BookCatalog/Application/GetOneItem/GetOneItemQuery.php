@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace BookCatalog\Application\GetItem;
+namespace BookCatalog\Application\GetOneItem;
 
 use Shared\Domain\Bus\Query\Query;
 
-final class GetItemQuery implements Query
+final class GetOneItemQuery implements Query
 {
     public function __construct(
         private string $id

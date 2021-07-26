@@ -23,6 +23,7 @@ final class GetItemsController extends ApiController
         );
         return $this->createApiResponse($items);
     }
+
     protected function exceptions(): array
     {
         return [];

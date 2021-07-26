@@ -11,6 +11,8 @@ use function Lambdish\Phunctional\each;
 
 abstract class ApiController extends Controller
 {
+    const CONTENT_TYPE = 'application/json';
+
     public function __construct(
         protected QueryBus $queryBus,
         protected CommandBus $commandBus,
@@ -29,7 +31,7 @@ abstract class ApiController extends Controller
             json_encode($data),
             $status_code,
             [
-                'Content-Type' => 'application/json',
+                'Content-Type' => self::CONTENT_TYPE,
             ]
         );
     }

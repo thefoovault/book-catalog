@@ -7,7 +7,7 @@ namespace BookCatalog\Application\GetItems;
 use JsonSerializable;
 use Shared\Domain\Bus\Query\QueryResponse;
 
-class ItemResponse implements QueryResponse, JsonSerializable
+final class ItemResponse implements QueryResponse, JsonSerializable
 {
     private const ID = 'id';
     private const LINK = 'link';

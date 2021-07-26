@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace BookCatalog\Infrastructure\Persistence\Book;
 
 use BookCatalog\Application\Criteria\Criteria;
+use BookCatalog\Domain\Author\Author;
 use BookCatalog\Domain\Author\AuthorId;
+use BookCatalog\Domain\Author\AuthorName;
 use BookCatalog\Domain\Book\Book;
+use BookCatalog\Domain\Book\BookCollection;
 use BookCatalog\Domain\Book\BookId;
 use BookCatalog\Domain\Book\BookImage;
 use BookCatalog\Domain\Book\BookPrice;
@@ -32,18 +35,41 @@ SQL;
         $stmt->bindValue('id', $book->bookId()->value());
         $stmt->bindValue('image', $book->bookImage()->value());
         $stmt->bindValue('title', $book->bookTitle()->value());
-        $stmt->bindValue('author_id', $book->bookAuthor()->value());
+        $stmt->bindValue('author_id', $book->bookAuthor()->authorId()->value());
         $stmt->bindValue('price', $book->bookPrice()->value());
 
         $stmt->execute();
     }
 
-    public function findBy(Criteria $criteria): ?iterable
+    public function findById(BookId $bookId): ?Book
     {
         $query = <<<SQL
-SELECT BIN_TO_UUID(book_id) AS id, image, title, BIN_TO_UUID(author_id) AS author_id, price
-FROM book
- LIMIT :offset, :limit
+SELECT BIN_TO_UUID(b.book_id) AS id, b.image, b.title, BIN_TO_UUID(a.author_id) AS author_id, a.name AS author_name, b.price
+FROM book b
+JOIN author a ON a.author_id = b.author_id 
+WHERE b.book_id = UUID_TO_BIN(:id)
+SQL;
+        $stmt = $this->connection->prepare($query);
+        $stmt->bindValue('id', $bookId->value());
+
+        $stmt->execute();
+
+        $data = $stmt->fetchAllAssociative();
+
+        if (!$data) {
+            return null;
+        }
+
+        return $this->hydrateItem(current($data));
+    }
+
+    public function findBy(Criteria $criteria): BookCollection
+    {
+        $query = <<<SQL
+SELECT BIN_TO_UUID(b.book_id) AS id, b.image, b.title, BIN_TO_UUID(b.author_id) AS author_id, b.price, a.name AS author_name
+FROM book b
+JOIN author a ON a.author_id = b.author_id
+LIMIT :offset, :limit
 SQL;
 
         $stmt = $this->connection->prepare($query);
@@ -54,18 +80,36 @@ SQL;
 
         $data = $stmt->fetchAllAssociative();
 
-        if (empty($data) || false === $data) {
-            return null;
-        }
+        return $this->hydrateItems($data);
+    }
 
-        foreach($data as $book) {
-            yield new Book(
-                new BookId($book['id']),
-                new BookImage($book['image']),
-                new BookTitle($book['title']),
-                new AuthorId($book['author_id']),
-                new BookPrice((float) $book['price'])
+    private function hydrateItem(array $current): Book
+    {
+        $bookId = new BookId($current['id']);
+        $bookImage = new BookImage($current['image']);
+        $bookTitle = new BookTitle($current['title']);
+        $author = new Author(
+            new AuthorId($current['author_id']),
+            new AuthorName($current['author_name'])
+        );
+        $bookPrice = new BookPrice((float) $current['price']);
+
+        return new Book($bookId, $bookImage, $bookTitle, $author, $bookPrice);
+    }
+
+    /**
+     * @param $data
+     * @return BookCollection
+     */
+    private function hydrateItems($data): BookCollection
+    {
+        $bookCollection = new BookCollection([]);
+
+        foreach ($data as $book) {
+            $bookCollection->add(
+                $this->hydrateItem($book)
             );
         }
+        return $bookCollection;
     }
 }
