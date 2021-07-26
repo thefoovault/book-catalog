@@ -2,29 +2,29 @@
 
 declare(strict_types=1);
 
-namespace Test\BookCatalog\Application\GetItem;
+namespace Test\BookCatalog\Application\GetOneItem;
 
-use BookCatalog\Application\GetItem\GetItem;
-use BookCatalog\Application\GetItem\GetItemQuery;
-use BookCatalog\Application\GetItem\GetItemQueryHandler;
-use BookCatalog\Application\GetItem\GetItemReadModelRepository;
-use BookCatalog\Application\GetItem\ItemResponse;
+use BookCatalog\Application\GetOneItem\GetOneItem;
+use BookCatalog\Application\GetOneItem\GetOneItemQuery;
+use BookCatalog\Application\GetOneItem\GetOneItemQueryHandler;
+use BookCatalog\Application\GetOneItem\GetItemReadModelRepository;
+use BookCatalog\Application\GetOneItem\ItemResponse;
 use BookCatalog\Domain\Book\Exception\BookNotFound;
 use PHPUnit\Framework\TestCase;
 use Test\BookCatalog\Domain\Author\AuthorMother;
 use Test\BookCatalog\Domain\Book\BookIdMother;
 use Test\BookCatalog\Domain\Book\BookMother;
 
-final class GetItemQueryHandlerTest extends TestCase
+final class GetOneItemQueryHandlerTest extends TestCase
 {
-    private GetItemQueryHandler $getItemQueryHandler;
+    private GetOneItemQueryHandler $getItemQueryHandler;
     private GetItemReadModelRepository $getItemReadModelRepository;
 
     protected function setUp(): void
     {
         $this->getItemReadModelRepository = $this->createMock(GetItemReadModelRepository::class);
-        $this->getItemQueryHandler = new GetItemQueryHandler(
-            new GetItem($this->getItemReadModelRepository)
+        $this->getItemQueryHandler = new GetOneItemQueryHandler(
+            new GetOneItem($this->getItemReadModelRepository)
         );
     }
 
@@ -48,7 +48,7 @@ final class GetItemQueryHandlerTest extends TestCase
             ->willReturn($expectedResponse);
 
         $itemResponse = $this->getItemQueryHandler->__invoke(
-            new GetItemQuery($sampleBook->bookId()->value())
+            new GetOneItemQuery($sampleBook->bookId()->value())
         );
 
         $this->assertInstanceOf(ItemResponse::class, $itemResponse);
@@ -68,7 +68,7 @@ final class GetItemQueryHandlerTest extends TestCase
             ->willReturn(null);
 
         $this->getItemQueryHandler->__invoke(
-            new GetItemQuery($bookId->value())
+            new GetOneItemQuery($bookId->value())
         );
     }
 }

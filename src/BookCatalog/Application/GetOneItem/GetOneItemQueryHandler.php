@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace BookCatalog\Application\GetItem;
+namespace BookCatalog\Application\GetOneItem;
 
 use BookCatalog\Domain\Book\BookId;
 use Shared\Domain\Bus\Query\QueryHandler;
 
-final class GetItemQueryHandler implements QueryHandler
+final class GetOneItemQueryHandler implements QueryHandler
 {
     public function __construct(
-        private GetItem $getItem
+        private GetOneItem $getItem
     ){}
-    public function __invoke(GetItemQuery $getItemQuery): ItemResponse
+    public function __invoke(GetOneItemQuery $getItemQuery): ItemResponse
     {
         return $this->getItem->__invoke(new BookId($getItemQuery->id()));
     }

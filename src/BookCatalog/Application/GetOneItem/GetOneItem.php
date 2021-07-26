@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace BookCatalog\Application\GetItem;
+namespace BookCatalog\Application\GetOneItem;
 
 use BookCatalog\Domain\Book\BookId;
 use BookCatalog\Domain\Book\Exception\BookNotFound;
 
-final class GetItem
+final class GetOneItem
 {
     public function __construct(
         private GetItemReadModelRepository $getItemReadModelRepository

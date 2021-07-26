@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace BookCatalog\Infrastructure\Persistence\GetItem;
 
-use BookCatalog\Application\GetItem\GetItemReadModelRepository;
-use BookCatalog\Application\GetItem\ItemResponse;
+use BookCatalog\Application\GetOneItem\GetItemReadModelRepository;
+use BookCatalog\Application\GetOneItem\ItemResponse;
 use BookCatalog\Domain\Book\BookId;
 use Doctrine\DBAL\Driver\Connection;
 

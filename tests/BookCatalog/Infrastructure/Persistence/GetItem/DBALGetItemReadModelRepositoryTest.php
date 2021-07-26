@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Test\BookCatalog\Infrastructure\Persistence\GetItem;
 
-use BookCatalog\Application\GetItem\ItemResponse;
+use BookCatalog\Application\GetOneItem\ItemResponse;
 use BookCatalog\Infrastructure\Persistence\Author\DBALAuthorRepository;
 use BookCatalog\Infrastructure\Persistence\Book\DBALBookRepository;
 use BookCatalog\Infrastructure\Persistence\GetItem\DBALGetItemReadModelRepository;

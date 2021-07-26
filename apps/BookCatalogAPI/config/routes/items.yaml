@@ -7,7 +7,7 @@ createBook:
 
 GetBook:
     path: /api/{version}/items/{id}
-    controller: BookCatalogAPI\Controller\Items\GetItemController
+    controller: BookCatalogAPI\Controller\Items\GetOneItemController
     methods: [GET]
     requirements:
         version: '%api_versions%'
