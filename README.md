@@ -35,6 +35,7 @@ I liked how the exercise is presented: it goes straight to the point and gives y
 However, while coding I had some ideas that (unfortunately) I could not implement, mostly due to the lack of time. Let's present my TODO-LIST:
 - `Fixtures`: My idea was to populate the database in the installation process :(  (at least the migrations are executed!)
 - `Doctrine`: I am using the old-and-reliable DBAL approach in the Infrastructure layer instead of Doctrine. I started using Doctrine, but a bunch of problems appeared and I decided to switch to DBAL in order to avoid delaying the delivery date.
+- `Authors endpoint`: I'd like to include an endpoint for authors to save and retrieve.
 - `A better README`
   
 Now, let's talk about the PROUD-LIST (things that I enjoyed coding in this app):
