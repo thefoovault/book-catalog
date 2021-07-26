@@ -40,6 +40,7 @@ final class GetItemQueryHandlerTest extends TestCase
             $sampleAuthor->authorName()->value(),
             $sampleBook->bookPrice()->value()
         );
+
         $this->getItemReadModelRepository
             ->expects(self::once())
             ->method('findBookWithAuthorById')

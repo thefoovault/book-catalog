@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace BookCatalogAPI\Controller\Items;
 
 use BookCatalog\Application\GetItem\GetItemQuery;
+use BookCatalog\Domain\Book\Exception\BookNotFound;
+use Shared\Domain\Exception\InvalidUuid;
 use Shared\Infrastructure\Symfony\Controller\ApiController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +26,9 @@ final class GetItemController extends ApiController
 
     protected function exceptions(): array
     {
-        return [];
+        return [
+            BookNotFound::class => Response::HTTP_NOT_FOUND,
+            InvalidUuid::class => Response::HTTP_BAD_REQUEST
+        ];
     }
 }

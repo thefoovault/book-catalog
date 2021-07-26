@@ -11,3 +11,7 @@ POST http://localhost:8000/api/v1/items
 ###
 # Get an item
 GET http://localhost:8000/api/v1/items/0e644e46-cbdb-4fcb-b147-6068259191eb
+
+###
+# Get items
+GET http://localhost:8000/api/v1/items?offset=1&count=2
