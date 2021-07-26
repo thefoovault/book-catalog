@@ -38,6 +38,20 @@ class DBALBookRepositoryTest extends DoctrineTestCase
         $this->bookRepository->save($book);
     }
 
+    /** @test */
+    public function itShouldGetASingleBook(): void
+    {
+        $sampleBook = BookMother::random();
+
+        $this->authorRepository->save($sampleBook->bookAuthor());
+        $this->bookRepository->save($sampleBook);
+
+        $book = $this->bookRepository->findById($sampleBook->bookId());
+
+        $this->assertInstanceOf(Book::class, $book);
+        $this->assertEquals($sampleBook, $book);
+    }
+
     /** @test  */
     public function itShouldGetBooks(): void
     {
