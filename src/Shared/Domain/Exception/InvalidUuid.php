@@ -22,7 +22,7 @@ final class InvalidUuid extends DomainError
     public function errorCode(): string
     {
         return sprintf(
-            'The uuid %s is invalid',
+            'The identifier %s is invalid',
             $this->uuid
         );
     }
