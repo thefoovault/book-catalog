@@ -9,6 +9,7 @@ use BookCatalog\Application\CreateItem\CreateItemCommand;
 use BookCatalog\Application\CreateItem\CreateItemCommandHandler;
 use BookCatalog\Application\GetAuthor\GetAuthor;
 use BookCatalog\Domain\Author\AuthorRepository;
+use BookCatalog\Domain\Author\Exception\AuthorNotFound;
 use BookCatalog\Domain\Book\BookRepository;
 use PHPUnit\Framework\TestCase;
 use Test\BookCatalog\Domain\Book\BookMother;
@@ -52,6 +53,35 @@ final class CreateItemCommandHandlerTest extends TestCase
             ->method('findById')
             ->with($book->bookAuthor()->authorId())
             ->willReturn($book->bookAuthor());
+
+        $this->createItemCommandHandler->__invoke(
+            new CreateItemCommand(
+                $book->bookId()->value(),
+                $book->bookImage()->value(),
+                $book->bookTitle()->value(),
+                $book->bookAuthor()->authorId()->value(),
+                $book->bookPrice()->value(),
+            )
+        );
+    }
+
+    /** @test */
+    public function shouldThrowException(): void
+    {
+        $this->expectException(AuthorNotFound::class);
+
+        $book = BookMother::random();
+
+        $this->bookRepository
+            ->expects(self::never())
+            ->method('save')
+            ->with($book);
+
+        $this->authorRepository
+            ->expects(self::once())
+            ->method('findById')
+            ->with($book->bookAuthor()->authorId())
+            ->willReturn(null);
 
         $this->createItemCommandHandler->__invoke(
             new CreateItemCommand(
