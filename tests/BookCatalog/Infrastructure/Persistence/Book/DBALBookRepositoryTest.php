@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Test\BookCatalog\Infrastructure\Persistence\Book;
 
+use BookCatalog\Application\Criteria\Criteria;
+use BookCatalog\Domain\Book\Book;
 use BookCatalog\Infrastructure\Persistence\Author\DBALAuthorRepository;
 use BookCatalog\Infrastructure\Persistence\Book\DBALBookRepository;
 use Test\BookCatalog\Domain\Author\AuthorMother;
@@ -31,5 +33,25 @@ class DBALBookRepositoryTest extends DoctrineTestCase
         $this->authorRepository->save($author);
 
         $this->bookRepository->save($book);
+    }
+
+    /** @test  */
+    public function itShouldGetBooks(): void
+    {
+        for($i = 0; $i < 3; $i++) {
+            $sampleAuthor = AuthorMother::random();
+            $sampleBook = BookMother::withAuthor($sampleAuthor->authorId()->value());
+
+            $this->authorRepository->save($sampleAuthor);
+
+            $this->bookRepository->save($sampleBook);
+        }
+
+        $listItems = $this->bookRepository->findBy(
+            new Criteria(0, 3)
+        );
+
+        $this->assertIsIterable($listItems);
+        $this->assertInstanceOf(Book::class, $listItems->current());
     }
 }
