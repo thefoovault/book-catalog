@@ -54,4 +54,4 @@ hooks:
 	ln -s ../docs/git/hooks-docker .git/hooks
 
 migrations:
-	@docker-compose exec php_container php apps/BookCatalogApi/bin/console doctrine:migrations:migrate --no-interaction
+	@docker-compose exec book_catalog_php_container php apps/BookCatalogApi/bin/console doctrine:migrations:migrate --no-interaction
