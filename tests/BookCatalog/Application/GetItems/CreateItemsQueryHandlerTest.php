@@ -33,7 +33,6 @@ class CreateItemsQueryHandlerTest extends TestCase
     {
         $expectedItems = [];
         $sampleBooks = [];
-
         for ($i = 0; $i < self::EXPECTED_ITEMS; $i++) {
             $sampleAuthor = AuthorMother::random();
             $sampleBook = BookMother::withAuthor($sampleAuthor->authorId()->value());

@@ -38,12 +38,10 @@ class DBALBookRepositoryTest extends DoctrineTestCase
     /** @test  */
     public function itShouldGetBooks(): void
     {
-        for($i = 0; $i < 3; $i++) {
-            $sampleAuthor = AuthorMother::random();
-            $sampleBook = BookMother::withAuthor($sampleAuthor->authorId()->value());
+        for($i = 0; $i < 3; $i++) { // mete el 3 en ua const
+            $sampleBook = BookMother::random();
 
-            $this->authorRepository->save($sampleAuthor);
-
+            $this->authorRepository->save($sampleBook->bookAuthor());
             $this->bookRepository->save($sampleBook);
         }
 

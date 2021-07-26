@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace Test\BookCatalog\Domain\Book;
 
-use BookCatalog\Domain\Author\AuthorId;
+use BookCatalog\Domain\Author\Author;
 use BookCatalog\Domain\Book\Book;
 use BookCatalog\Domain\Book\BookId;
 use BookCatalog\Domain\Book\BookImage;
 use BookCatalog\Domain\Book\BookPrice;
 use BookCatalog\Domain\Book\BookTitle;
 use Test\BookCatalog\Domain\Author\AuthorIdMother;
+use Test\BookCatalog\Domain\Author\AuthorMother;
+use Test\BookCatalog\Domain\Author\AuthorNameMother;
 
 final class BookMother
 {
@@ -18,11 +20,11 @@ final class BookMother
         BookId $bookId,
         BookImage $bookImage,
         BookTitle $bookTitle,
-        AuthorId $authorId,
+        Author $bookAuthor,
         BookPrice $bookPrice
     ): Book
     {
-        return new Book($bookId, $bookImage, $bookTitle, $authorId, $bookPrice);
+        return new Book($bookId, $bookImage, $bookTitle, $bookAuthor, $bookPrice);
     }
 
     public static function random(): Book
@@ -31,7 +33,7 @@ final class BookMother
             BookIdMother::random(),
             BookImageMother::random(),
             BookTitleMother::random(),
-            AuthorIdMother::random(),
+            AuthorMother::random(),
             BookPriceMother::random()
         );
     }
@@ -42,7 +44,10 @@ final class BookMother
             BookIdMother::random(),
             BookImageMother::random(),
             BookTitleMother::random(),
-            AuthorIdMother::create($authorId),
+            AuthorMother::create(
+                AuthorIdMother::create($authorId),
+                AuthorNameMother::random()
+            ),
             BookPriceMother::random()
         );
     }

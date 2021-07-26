@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace BookCatalog\Infrastructure\Persistence\Book;
 
 use BookCatalog\Application\Criteria\Criteria;
+use BookCatalog\Domain\Author\Author;
 use BookCatalog\Domain\Author\AuthorId;
+use BookCatalog\Domain\Author\AuthorName;
 use BookCatalog\Domain\Book\Book;
 use BookCatalog\Domain\Book\BookId;
 use BookCatalog\Domain\Book\BookImage;
@@ -32,7 +34,7 @@ SQL;
         $stmt->bindValue('id', $book->bookId()->value());
         $stmt->bindValue('image', $book->bookImage()->value());
         $stmt->bindValue('title', $book->bookTitle()->value());
-        $stmt->bindValue('author_id', $book->bookAuthor()->value());
+        $stmt->bindValue('author_id', $book->bookAuthor()->authorId()->value());
         $stmt->bindValue('price', $book->bookPrice()->value());
 
         $stmt->execute();
@@ -41,9 +43,10 @@ SQL;
     public function findBy(Criteria $criteria): ?iterable
     {
         $query = <<<SQL
-SELECT BIN_TO_UUID(book_id) AS id, image, title, BIN_TO_UUID(author_id) AS author_id, price
-FROM book
- LIMIT :offset, :limit
+SELECT BIN_TO_UUID(b.book_id) AS id, b.image, b.title, BIN_TO_UUID(b.author_id) AS author_id, b.price, a.name AS author_name
+FROM book b
+JOIN author a ON a.author_id = b.author_id
+LIMIT :offset, :limit
 SQL;
 
         $stmt = $this->connection->prepare($query);
@@ -63,7 +66,10 @@ SQL;
                 new BookId($book['id']),
                 new BookImage($book['image']),
                 new BookTitle($book['title']),
-                new AuthorId($book['author_id']),
+                new Author(
+                    new AuthorId($book['author_id']),
+                    new AuthorName($book['author_name'])
+                ),
                 new BookPrice((float) $book['price'])
             );
         }
