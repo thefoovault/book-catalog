@@ -32,7 +32,7 @@ class CreateItemsQueryHandlerTest extends TestCase
     /** @test */
     public function shouldReturnAValidListOfBooks(): void
     {
-        list($expectedListItems, $sampleBookCollection) = $this->CreateItems();
+        list($expectedListItems, $sampleBookCollection) = $this->createItems();
 
         $this->bookRepository
             ->expects(self::once())
@@ -49,7 +49,7 @@ class CreateItemsQueryHandlerTest extends TestCase
         $this->assertCount(self::EXPECTED_ITEMS, $listItems->getIterator());
     }
 
-    private function CreateItems(): array
+    private function createItems(): array
     {
         $expectedListItems = new ListItemResponse([]);
         $sampleBookCollection = new BookCollection([]);
