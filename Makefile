@@ -1,5 +1,5 @@
 all: help
-.PHONY: help status build composer-install build-container start stop down destroy shell test hooks run-tests
+.PHONY: help status build composer-install build-container start stop down destroy shell test hooks run-tests migrations
 
 current-dir := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
@@ -11,7 +11,7 @@ status:
 	@docker-compose ps
 
 ## build:		Start container and install packages
-build: build-container start hooks composer-install
+build: build-container start hooks composer-install migrations
 
 ## build-container:Rebuild a container
 build-container:
@@ -52,3 +52,6 @@ run-tests:
 hooks:
 	rm -rf .git/hooks
 	ln -s ../docs/git/hooks-docker .git/hooks
+
+migrations:
+	docker-compose exec book_catalog_php_container doctrine:migrations:migrate
