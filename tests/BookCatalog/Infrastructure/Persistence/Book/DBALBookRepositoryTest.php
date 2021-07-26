@@ -6,6 +6,7 @@ namespace Test\BookCatalog\Infrastructure\Persistence\Book;
 
 use BookCatalog\Application\Criteria\Criteria;
 use BookCatalog\Domain\Book\Book;
+use BookCatalog\Domain\Book\BookCollection;
 use BookCatalog\Infrastructure\Persistence\Author\DBALAuthorRepository;
 use BookCatalog\Infrastructure\Persistence\Book\DBALBookRepository;
 use Test\BookCatalog\Domain\Author\AuthorMother;
@@ -14,6 +15,8 @@ use Test\DoctrineTestCase;
 
 class DBALBookRepositoryTest extends DoctrineTestCase
 {
+    private const EXPECTED_ITEMS = 3;
+
     private DBALAuthorRepository $authorRepository;
     private DBALBookRepository $bookRepository;
 
@@ -38,18 +41,19 @@ class DBALBookRepositoryTest extends DoctrineTestCase
     /** @test  */
     public function itShouldGetBooks(): void
     {
-        for($i = 0; $i < 3; $i++) { // mete el 3 en ua const
+        for($i = 0; $i < self::EXPECTED_ITEMS; $i++) {
             $sampleBook = BookMother::random();
 
             $this->authorRepository->save($sampleBook->bookAuthor());
             $this->bookRepository->save($sampleBook);
         }
 
-        $listItems = $this->bookRepository->findBy(
-            new Criteria(0, 3)
+        $bookCollection = $this->bookRepository->findBy(
+            new Criteria(0, self::EXPECTED_ITEMS)
         );
 
-        $this->assertIsIterable($listItems);
-        $this->assertInstanceOf(Book::class, $listItems->current());
+        $this->assertInstanceOf(BookCollection::class, $bookCollection);
+        $this->assertCount(self::EXPECTED_ITEMS, $bookCollection);
+        $this->assertContainsOnlyInstancesOf(Book::class, $bookCollection->getIterator());
     }
 }

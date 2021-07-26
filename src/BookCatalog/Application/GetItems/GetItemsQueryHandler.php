@@ -23,18 +23,6 @@ final class GetItemsQueryHandler implements QueryHandler
             )
         );
 
-        $items = new ListItemResponse([]);
-
-        /** @var Book $book */
-        foreach($books as $book) {
-            $item = new ItemResponse(
-                $book->bookId()->value(),
-                $book->bookId()->value(),
-                $book->bookTitle()->value()
-            );
-            $items->add($item);
-        }
-
-        return $items;
+        return ListItemResponse::createFromBookCollection($books);
     }
 }

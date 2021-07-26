@@ -10,5 +10,5 @@ interface BookRepository
 {
     public function save(Book $book): void;
 
-    public function findBy(Criteria $criteria): ?iterable;
+    public function findBy(Criteria $criteria): BookCollection;
 }
