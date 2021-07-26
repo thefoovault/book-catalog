@@ -14,6 +14,8 @@ final class GetOneItemQueryHandler implements QueryHandler
     ){}
     public function __invoke(GetOneItemQuery $getItemQuery): ItemResponse
     {
-        return $this->getItem->__invoke(new BookId($getItemQuery->id()));
+        $book = $this->getItem->__invoke(new BookId($getItemQuery->id()));
+
+        return ItemResponse::createFromBook($book);
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BookCatalog\Application\GetOneItem;
 
+use BookCatalog\Domain\Book\Book;
 use JsonSerializable;
 use Shared\Domain\Bus\Query\QueryResponse;
 
@@ -31,6 +32,17 @@ final class ItemResponse implements QueryResponse, JsonSerializable
             $data['title'],
             $data['author'],
             (float) $data['price']
+        );
+    }
+
+    public static function createFromBook(Book $book): self
+    {
+        return new self(
+            $book->bookId()->value(),
+            $book->bookImage()->value(),
+            $book->bookTitle()->value(),
+            $book->bookAuthor()->authorName()->value(),
+            $book->bookPrice()->value()
         );
     }
 

@@ -30,7 +30,7 @@ final class DBALGetItemReadModelRepositoryTest extends DoctrineTestCase
     public function shouldRetrieveAValidItem(): void
     {
         $sampleAuthor = AuthorMother::random();
-        $sampleBook = BookMother::withAuthor($sampleAuthor->authorId()->value());
+        $sampleBook = BookMother::withAuthor($sampleAuthor);
 
         $expectedItem = new ItemResponse(
             $sampleBook->bookId()->value(),

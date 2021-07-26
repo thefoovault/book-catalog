@@ -9,6 +9,8 @@ use BookCatalog\Application\GetOneItem\GetOneItemQuery;
 use BookCatalog\Application\GetOneItem\GetOneItemQueryHandler;
 use BookCatalog\Application\GetOneItem\GetItemReadModelRepository;
 use BookCatalog\Application\GetOneItem\ItemResponse;
+use BookCatalog\Domain\Book\Book;
+use BookCatalog\Domain\Book\BookRepository;
 use BookCatalog\Domain\Book\Exception\BookNotFound;
 use PHPUnit\Framework\TestCase;
 use Test\BookCatalog\Domain\Author\AuthorMother;
@@ -18,13 +20,13 @@ use Test\BookCatalog\Domain\Book\BookMother;
 final class GetOneItemQueryHandlerTest extends TestCase
 {
     private GetOneItemQueryHandler $getItemQueryHandler;
-    private GetItemReadModelRepository $getItemReadModelRepository;
+    private BookRepository $bookRepository;
 
     protected function setUp(): void
     {
-        $this->getItemReadModelRepository = $this->createMock(GetItemReadModelRepository::class);
+        $this->bookRepository = $this->createMock(BookRepository::class);
         $this->getItemQueryHandler = new GetOneItemQueryHandler(
-            new GetOneItem($this->getItemReadModelRepository)
+            new GetOneItem($this->bookRepository)
         );
     }
 
@@ -33,11 +35,11 @@ final class GetOneItemQueryHandlerTest extends TestCase
     {
         list($sampleBook, $expectedResponse) = $this->createItems();
 
-        $this->getItemReadModelRepository
+        $this->bookRepository
             ->expects(self::once())
-            ->method('findBookWithAuthorById')
+            ->method('findById')
             ->with($sampleBook->bookId())
-            ->willReturn($expectedResponse);
+            ->willReturn($sampleBook);
 
         $itemResponse = $this->getItemQueryHandler->__invoke(
             new GetOneItemQuery($sampleBook->bookId()->value())
@@ -58,9 +60,9 @@ final class GetOneItemQueryHandlerTest extends TestCase
         $this->expectException(BookNotFound::class);
 
         $bookId = BookIdMother::random();
-        $this->getItemReadModelRepository
+        $this->bookRepository
             ->expects(self::once())
-            ->method('findBookWithAuthorById')
+            ->method('findById')
             ->with($bookId)
             ->willReturn(null);
 
@@ -72,7 +74,7 @@ final class GetOneItemQueryHandlerTest extends TestCase
     private function createItems(): array
     {
         $sampleAuthor = AuthorMother::random();
-        $sampleBook = BookMother::withAuthor($sampleAuthor->authorId()->value());
+        $sampleBook = BookMother::withAuthor($sampleAuthor);
         $expectedResponse = new ItemResponse(
             $sampleBook->bookId()->value(),
             $sampleBook->bookImage()->value(),

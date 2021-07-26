@@ -10,9 +10,7 @@ use BookCatalog\Domain\Book\BookId;
 use BookCatalog\Domain\Book\BookImage;
 use BookCatalog\Domain\Book\BookPrice;
 use BookCatalog\Domain\Book\BookTitle;
-use Test\BookCatalog\Domain\Author\AuthorIdMother;
 use Test\BookCatalog\Domain\Author\AuthorMother;
-use Test\BookCatalog\Domain\Author\AuthorNameMother;
 
 final class BookMother
 {
@@ -38,16 +36,13 @@ final class BookMother
         );
     }
 
-    public static function withAuthor(string $authorId): Book
+    public static function withAuthor(Author $author): Book
     {
         return self::create(
             BookIdMother::random(),
             BookImageMother::random(),
             BookTitleMother::random(),
-            AuthorMother::create(
-                AuthorIdMother::create($authorId),
-                AuthorNameMother::random()
-            ),
+            $author,
             BookPriceMother::random()
         );
     }

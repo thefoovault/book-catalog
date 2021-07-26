@@ -31,7 +31,7 @@ class DBALBookRepositoryTest extends DoctrineTestCase
     public function itShouldSaveABook(): void
     {
         $author = AuthorMother::random();
-        $book = BookMother::withAuthor($author->authorId()->value());
+        $book = BookMother::withAuthor($author);
 
         $this->authorRepository->save($author);
 

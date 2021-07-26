@@ -56,7 +56,7 @@ class CreateItemsQueryHandlerTest extends TestCase
 
         for ($i = 0; $i < self::EXPECTED_ITEMS; $i++) {
             $sampleAuthor = AuthorMother::random();
-            $sampleBook = BookMother::withAuthor($sampleAuthor->authorId()->value());
+            $sampleBook = BookMother::withAuthor($sampleAuthor);
             $expectedListItem = new ItemResponse(
                 $sampleBook->bookId()->value(),
                 $sampleBook->bookId()->value(),

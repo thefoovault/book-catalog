@@ -41,6 +41,28 @@ SQL;
         $stmt->execute();
     }
 
+    public function findById(BookId $bookId): ?Book
+    {
+        $query = <<<SQL
+SELECT BIN_TO_UUID(b.book_id) AS id, b.image, b.title, BIN_TO_UUID(a.author_id) AS author_id, a.name AS author_name, b.price
+FROM book b
+JOIN author a ON a.author_id = b.author_id 
+WHERE b.book_id = UUID_TO_BIN(:id)
+SQL;
+        $stmt = $this->connection->prepare($query);
+        $stmt->bindValue('id', $bookId->value());
+
+        $stmt->execute();
+
+        $data = $stmt->fetchAllAssociative();
+
+        if (!$data) {
+            return null;
+        }
+
+        return $this->hydrateItem(current($data));
+    }
+
     public function findBy(Criteria $criteria): BookCollection
     {
         $query = <<<SQL
@@ -58,23 +80,36 @@ SQL;
 
         $data = $stmt->fetchAllAssociative();
 
+        return $this->hydrateItems($data);
+    }
+
+    private function hydrateItem(array $current): Book
+    {
+        $bookId = new BookId($current['id']);
+        $bookImage = new BookImage($current['image']);
+        $bookTitle = new BookTitle($current['title']);
+        $author = new Author(
+            new AuthorId($current['author_id']),
+            new AuthorName($current['author_name'])
+        );
+        $bookPrice = new BookPrice((float) $current['price']);
+
+        return new Book($bookId, $bookImage, $bookTitle, $author, $bookPrice);
+    }
+
+    /**
+     * @param $data
+     * @return BookCollection
+     */
+    private function hydrateItems($data): BookCollection
+    {
         $bookCollection = new BookCollection([]);
 
-        foreach($data as $book) {
+        foreach ($data as $book) {
             $bookCollection->add(
-                new Book(
-                    new BookId($book['id']),
-                    new BookImage($book['image']),
-                    new BookTitle($book['title']),
-                    new Author(
-                        new AuthorId($book['author_id']),
-                        new AuthorName($book['author_name'])
-                    ),
-                    new BookPrice((float) $book['price'])
-                )
+                $this->hydrateItem($book)
             );
         }
-
         return $bookCollection;
     }
 }
